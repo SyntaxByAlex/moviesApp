@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Movie } from '../../core/entities/movie.entity'
-import { NowPlayingReponse, PopularMoviesResponse } from '../../infrastructure/interfaces/movie-db-responses';
+import { NowPlayingReponse, PopularMoviesResponse, TopRated } from '../../infrastructure/interfaces/movie-db-responses';
 import * as UseCases from '../../core/use-cases'
 import { movieDBFecher } from '../../config/adapters/movieDB.adpter';
 
 let popularPageNumber = 1;
+let upcomingPageNumber = 1;
+let topRatedPageNumber = 1;
 
 export const useMovies = () => {
 
@@ -54,6 +56,18 @@ export const useMovies = () => {
             popularPageNumber++
             const popularMovies = await UseCases.moviesPopularUseCase(movieDBFecher, { page: popularPageNumber })
             setPopular(prev => [...prev, ...popularMovies])
+
+        },
+        topRatedNextPage: async () => {
+            topRatedPageNumber++
+            const topRatedMovies = await UseCases.moviesPopularUseCase(movieDBFecher, { page: topRatedPageNumber })
+            setTopRated(prev => [...prev, ...topRatedMovies])
+
+        },
+        upComingNextPage: async () => {
+            upcomingPageNumber++
+            const upcomingMovies = await UseCases.moviesPopularUseCase(movieDBFecher, { page: upcomingPageNumber })
+            setUpComing(prev => [...prev, ...upcomingMovies])
 
         }
     }
